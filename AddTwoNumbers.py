@@ -4,6 +4,41 @@ class ListNode(object):
         self.val = x
         self.next = None
 
+# class Solution(object):
+#     def addTwoNumbers(self, l1, l2):
+#         """
+#         :type l1: ListNode
+#         :type l2: ListNode
+#         :rtype: Li
+#         1， l1比l2短
+#         """
+#         def tarns_node_to_num(node):
+#             number = 0
+#             count = 0
+#             while node:
+#                 number = node.val * (10 ** count) + number
+#                 node = node.next
+#                 count += 1
+#             return number
+
+#         def trans_num_to_node(number):
+#             node = ListNode(0)
+#             tmp = node
+#             while number:
+#                 number, re = divmod(number, 10)
+#                 tmp.val = re
+#                 if number == 0:
+#                     break
+#                 tmp.next = ListNode(0)
+#                 tmp = tmp.next
+#             return node
+
+#         num1 = (tarns_node_to_num(l1))
+#         num2 = (tarns_node_to_num(l2))
+#         num0 = num1 + num2
+#         l0 = trans_num_to_node(num0)
+#         return l0
+
 class Solution(object):
     def addTwoNumbers(self, l1, l2):
         """
@@ -12,32 +47,21 @@ class Solution(object):
         :rtype: Li
         1， l1比l2短
         """
-        def tarns_node_to_num(node):
-            number = 0
-            count = 0
-            while node:
-                number = node.val * (10 ** count) + number
-                node = node.next
-                count += 1
-            return number
+        l0 = ListNode(0)
+        tmp = l0
+        flag = 0
+        while l1 or l2 or flag:
+            tmp.next = ListNode(0)
+            if not l1:
+                l1 = ListNode(0)
+            if not l2:
+                l2 = ListNode(0)
+            flag, tmp.next.val = divmod(l1.val + l2.val + flag, 10)
+            l1 = l1.next
+            l2 = l2.next
+            tmp = tmp.next
 
-        def trans_num_to_node(number):
-            node = ListNode(0)
-            tmp = node
-            while number:
-                number, re = divmod(number, 10)
-                tmp.val = re
-                if number == 0:
-                    break
-                tmp.next = ListNode(0)
-                tmp = tmp.next
-            return node
-
-        num1 = (tarns_node_to_num(l1))
-        num2 = (tarns_node_to_num(l2))
-        num0 = num1 + num2
-        l0 = trans_num_to_node(num0)
-        return l0
+        return l0.next
 
 if __name__ == '__main__':
     def get_list_node(in_list):
@@ -54,7 +78,7 @@ if __name__ == '__main__':
             print(node.val)
             node = node.next
 
-    l1 = get_list_node([1, 1])
-    l2 = get_list_node([5])
+    l1 = get_list_node([9, 9])
+    l2 = get_list_node([1])
     l0 = Solution().addTwoNumbers(l1, l2)
     show_list_node(l0)
